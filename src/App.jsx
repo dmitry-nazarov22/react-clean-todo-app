@@ -1,33 +1,76 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useEffect } from "react";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="wrapper">
+        <h1 className="heading">Clean To-Do</h1>
+        <section className="to-do-section">
+          <h2>To Do</h2>
+          <div className="to-do-list">
+            <div className="list-item">
+              <div className="checkbox-and-label">
+                <input
+                  type="checkbox"
+                  id="list-item-1"
+                  name="list-item-1"
+                  value="eat"
+                ></input>
+                <label htmlFor="list-item-1">eat</label>
+                <br />
+              </div>
+              <button>Edit</button>
+            </div>
+            <div className="list-item">
+              <div className="checkbox-and-label">
+                <input
+                  type="checkbox"
+                  id="list-item-2"
+                  name="list-item-2"
+                  value="sleep"
+                ></input>
+                <label htmlFor="list-item-2">sleep</label>
+                <br />
+              </div>
+              <button>Edit</button>
+            </div>
+            <div className="list-item">
+              <div className="checkbox-and-label">
+                <input
+                  type="checkbox"
+                  id="list-item-3"
+                  name="list-item-3"
+                  value="repeat"
+                ></input>
+                <label htmlFor="list-item-3">repeat</label>
+                <br />
+              </div>
+              <button>Edit</button>
+            </div>
+          </div>
+        </section>
+        <section className="done-section">
+          <h2>Done</h2>
+          <div className="done-list">
+            <div className="list-item">
+              <div className="checkbox-and-label">
+                <input
+                  type="checkbox"
+                  id="list-item-4"
+                  name="list-item-4"
+                  value="make a todo app"
+                ></input>
+                <label htmlFor="list-item-4">make a todo app</label>
+                <br />
+              </div>
+              <button>Edit</button>
+            </div>
+          </div>
+        </section>
+        <button className="add-btn">Add new</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }
