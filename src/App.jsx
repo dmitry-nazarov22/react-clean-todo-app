@@ -1,75 +1,87 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import {
+  Typography,
+  Box,
+  Checkbox,
+  Button,
+  IconButton,
+  FormGroup,
+  FormControlLabel,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 import "./App.css";
 
 function App() {
   return (
     <>
       <div className="wrapper">
-        <h1 className="heading">Clean To-Do</h1>
+        <Typography
+          variant="h3"
+          component="h1"
+          gutterBottom
+          sx={{ textAlign: "center" }}
+        >
+          Clean To-Do
+        </Typography>
         <section className="to-do-section">
-          <h2>To Do</h2>
+          <Typography variant="h5" component="h2" gutterBottom>
+            To Do
+          </Typography>
           <div className="to-do-list">
-            <div className="list-item">
-              <div className="checkbox-and-label">
-                <input
-                  type="checkbox"
-                  id="list-item-1"
-                  name="list-item-1"
-                  value="eat"
-                ></input>
-                <label htmlFor="list-item-1">eat</label>
-                <br />
+            <FormGroup>
+              <div className="list-item">
+                <FormControlLabel control={<Checkbox />} label="eat" />
+                <IconButton aria-label="edit" sx={{ color: "gray" }}>
+                  <EditIcon />
+                </IconButton>
               </div>
-              <button>Edit</button>
-            </div>
-            <div className="list-item">
-              <div className="checkbox-and-label">
-                <input
-                  type="checkbox"
-                  id="list-item-2"
-                  name="list-item-2"
-                  value="sleep"
-                ></input>
-                <label htmlFor="list-item-2">sleep</label>
-                <br />
+              <div className="list-item">
+                <FormControlLabel control={<Checkbox />} label="sleep" />
+                <IconButton aria-label="edit" sx={{ color: "gray" }}>
+                  <EditIcon />
+                </IconButton>
               </div>
-              <button>Edit</button>
-            </div>
-            <div className="list-item">
-              <div className="checkbox-and-label">
-                <input
-                  type="checkbox"
-                  id="list-item-3"
-                  name="list-item-3"
-                  value="repeat"
-                ></input>
-                <label htmlFor="list-item-3">repeat</label>
-                <br />
+              <div className="list-item">
+                <FormControlLabel control={<Checkbox />} label="repeat" />
+                <IconButton aria-label="edit" sx={{ color: "gray" }}>
+                  <EditIcon />
+                </IconButton>
               </div>
-              <button>Edit</button>
-            </div>
+            </FormGroup>
           </div>
         </section>
         <section className="done-section">
-          <h2>Done</h2>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Done
+          </Typography>
           <div className="done-list">
-            <div className="list-item">
-              <div className="checkbox-and-label">
-                <input
-                  type="checkbox"
-                  id="list-item-4"
-                  name="list-item-4"
-                  value="make a todo app"
-                ></input>
-                <label htmlFor="list-item-4">make a todo app</label>
-                <br />
+            <FormGroup>
+              <div className="list-item">
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="make a todo app"
+                />
+                <IconButton aria-label="edit" sx={{ color: "gray" }}>
+                  <EditIcon />
+                </IconButton>
               </div>
-              <button>Edit</button>
-            </div>
+            </FormGroup>
           </div>
         </section>
-        <button className="add-btn">Add new</button>
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+          <Button
+            variant="outlined"
+            startIcon={<AddIcon />}
+            sx={{ color: "white", borderColor: "white" }}
+          >
+            Add new
+          </Button>
+        </Box>
       </div>
     </>
   );
