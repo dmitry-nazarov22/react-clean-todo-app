@@ -11,6 +11,8 @@ import {
   IconButton,
   FormGroup,
   FormControlLabel,
+  Modal,
+  TextField,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -20,19 +22,48 @@ function App() {
   let todos = [];
   let dones = [];
 
-  function handleAdd() {
-    // TODO:
-    // - Open modal with text input, add and close buttons
-    // - After Add is pressed validate and save input into todos
-    // - If validation wasn't succesful or close is pressed – handle
-  }
+  const [open, setOpen] = useState(false);
+  const [newTask, setNewTask] = useState("");
 
-  function handleEdit() {
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setNewTask("");
+    setOpen(false);
+  };
+
+  const handleAdd = () => {
+    if (!newTask.trim()) {
+      alert("Please enter a task");
+      return;
+    }
+
+    // TODO: push to your todos array here
+    console.log("Added:", newTask);
+
+    setNewTask("");
+    setOpen(false);
+  };
+
+  const handleEdit = () => {
     // TODO:
     // - Open modal with text input (old text pasted here), edit, delete and close buttons
     // - After Edit is pressed validate and save input into todos or dones
     // - If validation wasn't succesful or close is pressed – handle
-  }
+  };
+
+  const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "#1e1e1e",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    color: "white",
+    borderRadius: "12px",
+  };
 
   return (
     <>
@@ -45,6 +76,8 @@ function App() {
         >
           Clean To-Do
         </Typography>
+
+        {/* To Do Section */}
         <section className="to-do-section">
           <Typography variant="h5" component="h2" gutterBottom>
             To Do
@@ -90,9 +123,11 @@ function App() {
             </FormGroup>
           </div>
         </section>
+
+        {/* Add Button */}
         <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
           <Button
-            onClick={() => handleAdd()}
+            onClick={() => handleOpen()}
             variant="outlined"
             startIcon={<AddIcon />}
             sx={{ color: "white", borderColor: "white" }}
@@ -100,6 +135,63 @@ function App() {
             Add new
           </Button>
         </Box>
+
+        {/* Modal */}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={modalStyle}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Add new task:
+            </Typography>
+
+            {/* Input */}
+            <TextField
+              fullWidth
+              variant="outlined"
+              placeholder="Enteк task"
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              sx={{
+                mt: 2,
+                input: { color: "white" },
+                label: { color: "gray" },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: "gray" },
+                  "&:hover fieldset": { borderColor: "white" },
+                  "&.Mui-focused fieldset": { borderColor: "white" },
+                },
+              }}
+            />
+            {/* Buttons */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: 1,
+                mt: 3,
+              }}
+            >
+              <Button
+                onClick={handleClose}
+                variant="outlined"
+                sx={{ color: "gray", borderColor: "gray" }}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleAdd}
+                variant="contained"
+                sx={{ bgcolor: "white", color: "black" }}
+              >
+                Add
+              </Button>
+            </Box>
+          </Box>
+        </Modal>
       </div>
     </>
   );
