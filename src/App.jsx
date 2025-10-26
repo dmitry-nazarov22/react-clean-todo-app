@@ -44,6 +44,22 @@ function App() {
     setOpen(false);
   };
 
+  const handleToggle = (index, item, from) => {
+    const updatedItem = { ...item, isChecked: !item.isChecked };
+
+    if (from === "todos") {
+      setTodos((prev) => prev.filter((_, i) => i !== index));
+      setDones((prev) => [...prev, updatedItem]);
+      console.log("Moved to Dones:", newTask);
+    }
+
+    if (from === "dones") {
+      setDones((prev) => prev.filter((_, i) => i !== index));
+      setTodos((prev) => [...prev, updatedItem]);
+      console.log("Moved to ToDos:", newTask);
+    }
+  };
+
   const handleEdit = () => {
     // TODO:
     // - Open modal with text input (old text pasted here), edit, delete and close buttons
@@ -90,7 +106,7 @@ function App() {
                     control={
                       <Checkbox
                         checked={item.isChecked}
-                        onChange={() => handleToggle(index)}
+                        onChange={() => handleToggle(index, item, "todos")}
                       />
                     }
                     label={item.text}
@@ -103,21 +119,29 @@ function App() {
             </FormGroup>
           </div>
         </section>
+        {/* Done Section */}
         <section className="done-section">
           <Typography variant="h5" component="h2" gutterBottom>
             Done
           </Typography>
           <div className="done-list">
             <FormGroup>
-              <div className="list-item">
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="make a todo app"
-                />
-                <IconButton aria-label="edit" sx={{ color: "gray" }}>
-                  <EditIcon />
-                </IconButton>
-              </div>
+              {dones.map((item, index) => (
+                <div key={index} className="list-item">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={item.isChecked}
+                        onChange={() => handleToggle(index, item, "dones")}
+                      />
+                    }
+                    label={item.text}
+                  />
+                  <IconButton aria-label="edit" sx={{ color: "gray" }}>
+                    <EditIcon />
+                  </IconButton>
+                </div>
+              ))}
             </FormGroup>
           </div>
         </section>
@@ -150,7 +174,7 @@ function App() {
             <TextField
               fullWidth
               variant="outlined"
-              placeholder="Enteк task"
+              placeholder="Enter task"
               value={newTask}
               onChange={(e) => setNewTask(e.target.value)}
               sx={{
