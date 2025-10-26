@@ -19,8 +19,8 @@ import AddIcon from "@mui/icons-material/Add";
 import "./App.css";
 
 function App() {
-  let todos = [];
-  let dones = [];
+  const [todos, setTodos] = useState([]);
+  const [dones, setDones] = useState([]);
 
   const [open, setOpen] = useState(false);
   const [newTask, setNewTask] = useState("");
@@ -37,7 +37,7 @@ function App() {
       return;
     }
 
-    // TODO: push to your todos array here
+    setTodos((prev) => [...prev, { isChecked: false, text: newTask }]);
     console.log("Added:", newTask);
 
     setNewTask("");
@@ -84,24 +84,22 @@ function App() {
           </Typography>
           <div className="to-do-list">
             <FormGroup>
-              <div className="list-item">
-                <FormControlLabel control={<Checkbox />} label="eat" />
-                <IconButton aria-label="edit" sx={{ color: "gray" }}>
-                  <EditIcon />
-                </IconButton>
-              </div>
-              <div className="list-item">
-                <FormControlLabel control={<Checkbox />} label="sleep" />
-                <IconButton aria-label="edit" sx={{ color: "gray" }}>
-                  <EditIcon />
-                </IconButton>
-              </div>
-              <div className="list-item">
-                <FormControlLabel control={<Checkbox />} label="repeat" />
-                <IconButton aria-label="edit" sx={{ color: "gray" }}>
-                  <EditIcon />
-                </IconButton>
-              </div>
+              {todos.map((item, index) => (
+                <div key={index} className="list-item">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={item.isChecked}
+                        onChange={() => handleToggle(index)}
+                      />
+                    }
+                    label={item.text}
+                  />
+                  <IconButton aria-label="edit" sx={{ color: "gray" }}>
+                    <EditIcon />
+                  </IconButton>
+                </div>
+              ))}
             </FormGroup>
           </div>
         </section>
