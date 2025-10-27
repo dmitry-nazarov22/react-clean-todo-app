@@ -25,9 +25,27 @@ function App() {
   const [open, setOpen] = useState(false);
   const [newTask, setNewTask] = useState("");
 
-  const handleOpen = () => setOpen(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
+  const [editList, setEditList] = useState(null);
+
+  const handleOpen = (mode, index = null, list = null, text = "") => {
+    if (mode === "add") {
+      setIsEditing(false);
+      setNewTask("");
+    } else if (mode === "edit") {
+      setIsEditing(true);
+      setEditIndex(index);
+      setEditList(list);
+      setNewTask(text);
+    }
+    setOpen(true);
+  };
   const handleClose = () => {
     setNewTask("");
+    setIsEditing(false);
+    setEditIndex(null);
+    setEditList(null);
     setOpen(false);
   };
 
@@ -44,6 +62,29 @@ function App() {
     setOpen(false);
   };
 
+  const handleEditSave = () => {
+    if (!newTask.trim()) {
+      alert("Please enter a valid task");
+      return;
+    }
+
+    if (editList === "todos") {
+      setTodos((prev) =>
+        prev.map((item, i) =>
+          i === editIndex ? { ...item, text: newTask } : item
+        )
+      );
+    } else if (editList === "dones") {
+      setDones((prev) =>
+        prev.map((item, i) =>
+          i === editIndex ? { ...item, text: newTask } : item
+        )
+      );
+    }
+
+    handleClose();
+  };
+
   const handleToggle = (index, item, from) => {
     const updatedItem = { ...item, isChecked: !item.isChecked };
 
@@ -58,13 +99,6 @@ function App() {
       setTodos((prev) => [...prev, updatedItem]);
       console.log("Moved to ToDos:", newTask);
     }
-  };
-
-  const handleEdit = () => {
-    // TODO:
-    // - Open modal with text input (old text pasted here), edit, delete and close buttons
-    // - After Edit is pressed validate and save input into todos or dones
-    // - If validation wasn't succesful or close is pressed – handle
   };
 
   const modalStyle = {
@@ -111,7 +145,13 @@ function App() {
                     }
                     label={item.text}
                   />
-                  <IconButton aria-label="edit" sx={{ color: "gray" }}>
+                  <IconButton
+                    aria-label="edit"
+                    sx={{ color: "gray" }}
+                    onClick={() =>
+                      handleOpen("edit", index, "todos", item.text)
+                    }
+                  >
                     <EditIcon />
                   </IconButton>
                 </div>
@@ -137,7 +177,13 @@ function App() {
                     }
                     label={item.text}
                   />
-                  <IconButton aria-label="edit" sx={{ color: "gray" }}>
+                  <IconButton
+                    aria-label="edit"
+                    sx={{ color: "gray" }}
+                    onClick={() =>
+                      handleOpen("edit", index, "dones", item.text)
+                    }
+                  >
                     <EditIcon />
                   </IconButton>
                 </div>
@@ -149,7 +195,7 @@ function App() {
         {/* Add Button */}
         <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
           <Button
-            onClick={() => handleOpen()}
+            onClick={() => handleOpen("add")}
             variant="outlined"
             startIcon={<AddIcon />}
             sx={{ color: "white", borderColor: "white" }}
@@ -159,28 +205,21 @@ function App() {
         </Box>
 
         {/* Modal */}
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
+        <Modal open={open} onClose={handleClose}>
           <Box sx={modalStyle}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Add new task:
+            <Typography variant="h6" component="h2">
+              {isEditing ? "Edit task:" : "Add new task:"}
             </Typography>
 
-            {/* Input */}
             <TextField
               fullWidth
               variant="outlined"
-              placeholder="Enter task"
+              placeholder={isEditing ? "Edit your task" : "Enter task"}
               value={newTask}
               onChange={(e) => setNewTask(e.target.value)}
               sx={{
                 mt: 2,
                 input: { color: "white" },
-                label: { color: "gray" },
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": { borderColor: "gray" },
                   "&:hover fieldset": { borderColor: "white" },
@@ -188,7 +227,7 @@ function App() {
                 },
               }}
             />
-            {/* Buttons */}
+
             <Box
               sx={{
                 display: "flex",
@@ -205,11 +244,11 @@ function App() {
                 Cancel
               </Button>
               <Button
-                onClick={handleAdd}
+                onClick={isEditing ? handleEditSave : handleAdd}
                 variant="contained"
                 sx={{ bgcolor: "white", color: "black" }}
               >
-                Add
+                {isEditing ? "Save" : "Add"}
               </Button>
             </Box>
           </Box>
