@@ -85,6 +85,20 @@ function App() {
     handleClose();
   };
 
+  const handleDelete = () => {
+    if (editList === "todos") {
+      setTodos((prev) => prev.filter((_, i) => i !== editIndex));
+      console.log("Deleted a task");
+    }
+
+    if (editList === "dones") {
+      setDones((prev) => prev.filter((_, i) => i !== editIndex));
+      console.log("Moved to ToDos:", newTask);
+    }
+
+    handleClose();
+  };
+
   const handleToggle = (index, item, from) => {
     const updatedItem = { ...item, isChecked: !item.isChecked };
 
@@ -237,9 +251,20 @@ function App() {
               }}
             >
               <Button
+                onClick={handleDelete}
+                variant="outlined"
+                sx={{
+                  color: "red",
+                  borderColor: "red",
+                  display: isEditing ? "block" : "none",
+                }}
+              >
+                Delete
+              </Button>
+              <Button
                 onClick={handleClose}
                 variant="outlined"
-                sx={{ color: "gray", borderColor: "gray" }}
+                sx={{ color: "white", borderColor: "gray" }}
               >
                 Cancel
               </Button>
