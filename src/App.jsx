@@ -19,8 +19,18 @@ import AddIcon from "@mui/icons-material/Add";
 import "./App.css";
 
 function App() {
-  const [todos, setTodos] = useState([]);
-  const [dones, setDones] = useState([]);
+  const [todos, setTodos] = useState(() => {
+    // getting stored array
+    const saved = localStorage.getItem("todos");
+    const initialValue = JSON.parse(saved);
+    return initialValue || [];
+  });
+  const [dones, setDones] = useState(() => {
+    // getting stored array
+    const saved = localStorage.getItem("dones");
+    const initialValue = JSON.parse(saved);
+    return initialValue || [];
+  });
 
   const [open, setOpen] = useState(false);
   const [newTask, setNewTask] = useState("");
@@ -28,6 +38,14 @@ function App() {
   const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
   const [editList, setEditList] = useState(null);
+
+  useEffect(() => {
+    // storing arrays
+    if (todos.length > 0 || dones.length > 0) {
+      localStorage.setItem("todos", JSON.stringify(todos));
+      localStorage.setItem("dones", JSON.stringify(dones));
+    }
+  }, [todos, dones]);
 
   const handleOpen = (mode, index = null, list = null, text = "") => {
     if (mode === "add") {
