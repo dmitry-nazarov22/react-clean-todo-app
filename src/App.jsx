@@ -141,70 +141,86 @@ function App() {
           Clean To-Do
         </Typography>
 
-        {/* To Do Section */}
-        <section className="to-do-section">
-          <Typography variant="h5" component="h2" gutterBottom>
-            To Do
+        {todos.length === 0 && dones.length === 0 ? (
+          <Typography
+            variant="h6"
+            sx={{
+              textAlign: "center",
+              padding: "5rem 0 5rem 0",
+              mt: 4,
+              color: "gray",
+            }}
+          >
+            No tasks here yet.
           </Typography>
-          <div className="to-do-list">
-            <FormGroup>
-              {todos.map((item, index) => (
-                <div key={index} className="list-item">
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={item.isChecked}
-                        onChange={() => handleToggle(index, item, "todos")}
+        ) : (
+          <>
+            {/* To Do Section */}
+            <section className="to-do-section">
+              <Typography variant="h5" component="h2" gutterBottom>
+                To Do
+              </Typography>
+              <div className="to-do-list">
+                <FormGroup>
+                  {todos.map((item, index) => (
+                    <div key={index} className="list-item">
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={item.isChecked}
+                            onChange={() => handleToggle(index, item, "todos")}
+                          />
+                        }
+                        label={item.text}
                       />
-                    }
-                    label={item.text}
-                  />
-                  <IconButton
-                    aria-label="edit"
-                    sx={{ color: "gray" }}
-                    onClick={() =>
-                      handleOpen("edit", index, "todos", item.text)
-                    }
-                  >
-                    <EditIcon />
-                  </IconButton>
-                </div>
-              ))}
-            </FormGroup>
-          </div>
-        </section>
-        {/* Done Section */}
-        <section className="done-section">
-          <Typography variant="h5" component="h2" gutterBottom>
-            Done
-          </Typography>
-          <div className="done-list">
-            <FormGroup>
-              {dones.map((item, index) => (
-                <div key={index} className="list-item">
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={item.isChecked}
-                        onChange={() => handleToggle(index, item, "dones")}
+                      <IconButton
+                        aria-label="edit"
+                        sx={{ color: "gray" }}
+                        onClick={() =>
+                          handleOpen("edit", index, "todos", item.text)
+                        }
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </div>
+                  ))}
+                </FormGroup>
+              </div>
+            </section>
+            {/* Done Section */}
+            <section className="done-section">
+              <Typography variant="h5" component="h2" gutterBottom>
+                Done
+              </Typography>
+              <div className="done-list">
+                <FormGroup>
+                  {dones.map((item, index) => (
+                    <div key={index} className="list-item">
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={item.isChecked}
+                            onChange={() => handleToggle(index, item, "dones")}
+                          />
+                        }
+                        label={item.text}
                       />
-                    }
-                    label={item.text}
-                  />
-                  <IconButton
-                    aria-label="edit"
-                    sx={{ color: "gray" }}
-                    onClick={() =>
-                      handleOpen("edit", index, "dones", item.text)
-                    }
-                  >
-                    <EditIcon />
-                  </IconButton>
-                </div>
-              ))}
-            </FormGroup>
-          </div>
-        </section>
+                      <IconButton
+                        aria-label="edit"
+                        sx={{ color: "gray" }}
+                        onClick={() =>
+                          handleOpen("edit", index, "dones", item.text)
+                        }
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </div>
+                  ))}
+                </FormGroup>
+              </div>
+            </section>
+          </>
+        )}
 
         {/* Add Button */}
         <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>

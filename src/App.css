@@ -1,6 +1,6 @@
 body {
   min-height: 100vh;
-  background: #4b4b4b;
+  background: #131313;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +17,6 @@ body {
 }
 
 .to-do-section {
-  border-bottom: 2px solid #383838;
   margin: 1rem;
   padding: 1rem;
 }
